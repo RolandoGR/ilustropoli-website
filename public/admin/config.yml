@@ -1,10 +1,10 @@
 backend:
   name: github
-  repo: YOUR_GITHUB_USERNAME/ilustropoli-website
+  repo: RolandoGR/ilustropoli-website
   branch: main
 
 # Local backend for development — run `npx decap-server` to use
-# local_backend: true
+local_backend: true
 
 media_folder: public/images/uploads
 public_folder: /images/uploads

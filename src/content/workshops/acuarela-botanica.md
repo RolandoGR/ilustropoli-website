@@ -17,4 +17,4 @@ Aprende a capturar la delicadeza de las flores silvestres con acuarela. En este 
 - Certificado de participación
 
 **Nivel:** Principiante / Intermedio
-**Lugar:** Estudio Ilustropoli, Buenos Aires
+**Lugar:** Estudio Ilustropoli, Hermosillo, Sonora

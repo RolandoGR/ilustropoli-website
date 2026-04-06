@@ -17,4 +17,4 @@ Un taller de retrato que prioriza la expresión sobre la perfección técnica. U
 - Almuerzo compartido
 
 **Nivel:** Intermedio / Avanzado
-**Lugar:** Estudio Ilustropoli, Buenos Aires
+**Lugar:** Estudio Ilustropoli, Hermosillo, Sonora
