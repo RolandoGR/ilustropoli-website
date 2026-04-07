@@ -2,7 +2,7 @@
 title: Darth Vader
 images:
   - /images/artworks/vader.jpeg
-featured: false
+featured: true
 sale_divider: ""
 category: oleo
 for_sale: false
