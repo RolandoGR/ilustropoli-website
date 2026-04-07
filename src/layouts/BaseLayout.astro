@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import ScrollToTop from '../components/ScrollToTop.astro';
 
 interface Props {
   title: string;
@@ -44,6 +45,16 @@ const siteTitle = title === 'Ilustropoli' ? title : `${title} — Ilustropoli`;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{siteTitle}</title>
 
+    <!-- Lazy image fade-in styles -->
+    <style>
+      img.lazy-fade {
+        opacity: 0;
+        transition: opacity 0.5s ease;
+      }
+      img.lazy-fade.loaded {
+        opacity: 1;
+      }
+    </style>
   </head>
   <body class="min-h-screen flex flex-col">
     <Header />
@@ -51,5 +62,22 @@ const siteTitle = title === 'Ilustropoli' ? title : `${title} — Ilustropoli`;
       <slot />
     </main>
     <Footer />
+    <ScrollToTop />
+
+    <!-- Lazy image fade-in script -->
+    <script>
+      function applyFade(img: HTMLImageElement) {
+        img.classList.add('lazy-fade');
+        if (img.complete && img.naturalWidth > 0) {
+          img.classList.add('loaded');
+        } else {
+          img.addEventListener('load', () => img.classList.add('loaded'), { once: true });
+          // Fallback: show after 2s regardless
+          setTimeout(() => img.classList.add('loaded'), 2000);
+        }
+      }
+      // Apply to all images except header/nav icons
+      document.querySelectorAll<HTMLImageElement>('main img').forEach(applyFade);
+    </script>
   </body>
 </html>
