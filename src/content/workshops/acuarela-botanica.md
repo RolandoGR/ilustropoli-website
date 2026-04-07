@@ -1,5 +1,6 @@
 ---
 title: Acuarela Botánica — Flores Silvestres
+image: /images/artworks/taller-botanico.png
 date: 2026-03-10
 duration: 4 horas
 price: 600
