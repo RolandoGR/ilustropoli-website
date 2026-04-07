@@ -15,10 +15,16 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     </div>
 
     <h1 class="font-serif text-3xl sm:text-4xl font-semibold text-stone-900">¡Gracias!</h1>
-    <p class="mt-4 text-stone-500 leading-relaxed">
-      Tu compra fue procesada correctamente.<br />
-      Te enviaré un email con los detalles y coordinaremos la entrega.
-    </p>
+
+    <div id="status-message">
+      <p class="mt-4 text-stone-500 leading-relaxed">
+        Tu pago fue procesado correctamente.<br />
+        Te contactaré pronto para coordinar los detalles.
+      </p>
+    </div>
+
+    <!-- Payment status from MercadoPago URL params -->
+    <div id="payment-info" class="hidden mt-6 text-sm text-stone-400 border border-stone-100 p-4"></div>
 
     <div class="mt-10 flex flex-wrap justify-center gap-4">
       <a
@@ -36,3 +42,48 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     </div>
   </div>
 </BaseLayout>
+
+<script>
+  // MercadoPago sends these params on redirect:
+  // ?collection_status=approved&payment_id=XXX&status=approved
+  const params = new URLSearchParams(window.location.search);
+  const status = params.get('collection_status') || params.get('status');
+  const paymentId = params.get('payment_id') || params.get('collection_id');
+
+  const statusMessage = document.getElementById('status-message');
+  const paymentInfo = document.getElementById('payment-info');
+
+  if (status === 'approved') {
+    if (statusMessage) {
+      statusMessage.innerHTML = `
+        <p class="mt-4 text-stone-500 leading-relaxed">
+          Tu pago fue aprobado correctamente.<br />
+          Me pondré en contacto contigo a la brevedad para coordinar la entrega.
+        </p>
+      `;
+    }
+  } else if (status === 'pending' || status === 'in_process') {
+    if (statusMessage) {
+      statusMessage.innerHTML = `
+        <p class="mt-4 text-stone-500 leading-relaxed">
+          Tu pago está siendo procesado.<br />
+          Te notificaremos cuando se confirme.
+        </p>
+      `;
+    }
+  } else if (status === 'rejected') {
+    if (statusMessage) {
+      statusMessage.innerHTML = `
+        <p class="mt-4 text-red-400 leading-relaxed">
+          El pago no pudo procesarse.<br />
+          Por favor intenta nuevamente o contáctame directamente.
+        </p>
+      `;
+    }
+  }
+
+  if (paymentId && paymentInfo) {
+    paymentInfo.classList.remove('hidden');
+    paymentInfo.textContent = `Referencia de pago: ${paymentId}`;
+  }
+</script>

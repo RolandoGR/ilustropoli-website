@@ -1,13 +1,13 @@
 ---
 title: "Cerro de la Campana"
-price: 35000
+price: 400
 images:
   - "/images/artworks/cerro-de-la-campana.jpg"
 palette: "Sombras y cálidos"
 surface: "Tela, 80x100 cm"
 stock: 1
 featured: false
-payment_link: "https://mpago.la/example-link-3"
+payment_link: "https://mpago.la/2XwE9KZ"
 description: "Obra de descripción de ejemplo"
 ---
 
