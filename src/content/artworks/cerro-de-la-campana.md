@@ -7,6 +7,7 @@ palette: Sombras y cálidos
 surface: Tela, 80x100 cm
 stock: 1
 featured: false
+for_sale: true
 payment_link: https://mpago.la/2XwE9KZ
 description: Obra de descripción de ejemplo
 ---

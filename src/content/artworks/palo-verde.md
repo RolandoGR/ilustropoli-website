@@ -7,6 +7,7 @@ palette: Verdes, rosas y ocres
 surface: Papel de algodón 300g, 35x50 cm
 stock: 1
 featured: true
+for_sale: false
 payment_link: https://mpago.la/example-link-2
 description: Obra de descripción de ejemplo
 ---

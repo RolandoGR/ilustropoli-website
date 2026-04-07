@@ -15,15 +15,18 @@ export async function getStaticPaths() {
 const { artwork } = Astro.props;
 const { Content } = await render(artwork);
 
-const { title, price, images, palette, surface, stock, payment_link } = artwork.data;
+const { title, price, images, palette, surface, stock, payment_link, for_sale } = artwork.data;
 
-const formattedPrice = new Intl.NumberFormat('es-MX', {
-  style: 'currency',
-  currency: 'MXN',
-  maximumFractionDigits: 0,
-}).format(price);
+const formattedPrice = price
+  ? new Intl.NumberFormat('es-MX', {
+      style: 'currency',
+      currency: 'MXN',
+      maximumFractionDigits: 0,
+    }).format(price)
+  : null;
 
 const inStock = stock > 0;
+const canBuy = for_sale && payment_link && inStock;
 ---
 
 <BaseLayout
@@ -50,7 +53,9 @@ const inStock = stock > 0;
       <div class="lg:pt-4">
         <h1 class="font-serif text-3xl sm:text-4xl font-semibold text-stone-900 leading-tight">{title}</h1>
 
-        <p class="mt-4 text-2xl font-serif text-stone-700">{formattedPrice}</p>
+        {formattedPrice && for_sale && (
+          <p class="mt-4 text-2xl font-serif text-stone-700">{formattedPrice}</p>
+        )}
 
         <!-- Specs -->
         <dl class="mt-6 space-y-2 text-sm border-t border-stone-200 pt-6">
@@ -66,12 +71,14 @@ const inStock = stock > 0;
               <dd class="text-stone-700">{palette}</dd>
             </div>
           )}
-          <div class="flex gap-3">
-            <dt class="text-stone-400 w-24 flex-shrink-0">Disponible</dt>
-            <dd class={inStock ? 'text-green-700' : 'text-stone-400'}>
-              {inStock ? `${stock} ${stock === 1 ? 'pieza' : 'piezas'}` : 'Agotada'}
-            </dd>
-          </div>
+          {for_sale && (
+            <div class="flex gap-3">
+              <dt class="text-stone-400 w-24 flex-shrink-0">Disponible</dt>
+              <dd class={inStock ? 'text-green-700' : 'text-stone-400'}>
+                {inStock ? `${stock} ${stock === 1 ? 'pieza' : 'piezas'}` : 'Agotada'}
+              </dd>
+            </div>
+          )}
         </dl>
 
         <!-- Description -->
@@ -81,16 +88,17 @@ const inStock = stock > 0;
 
         <!-- CTA -->
         <div class="mt-8">
-          {payment_link && inStock ? (
-            <BuyButton paymentLink={payment_link} price={price} />
-          ) : (
+          {canBuy ? (
+            <>
+              <BuyButton paymentLink={payment_link!} price={price} />
+              <p class="mt-4 text-xs text-stone-400">
+                Al hacer clic serás redirigido a MercadoPago para completar la compra de forma segura.
+              </p>
+            </>
+          ) : for_sale && !inStock ? (
             <p class="text-sm text-stone-400 italic">Esta obra ya no está disponible.</p>
-          )}
+          ) : null}
         </div>
-
-        <p class="mt-4 text-xs text-stone-400">
-          Al hacer clic serás redirigido a MercadoPago para completar la compra de forma segura.
-        </p>
       </div>
     </div>
   </div>

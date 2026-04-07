@@ -33,7 +33,8 @@ collections:
       - { label: Paleta, name: palette, widget: string, required: false }
       - { label: Soporte / Dimensiones, name: surface, widget: string, required: false }
       - { label: Stock, name: stock, widget: number, value_type: int, default: 1 }
-      - { label: Destacada, name: featured, widget: boolean, default: false }
+      - { label: Destacada en inicio, name: featured, widget: boolean, default: false }
+      - { label: Disponible para venta, name: for_sale, widget: boolean, default: false }
       - { label: Link de pago (MercadoPago / PayPal), name: payment_link, widget: string, required: false }
 
   - name: workshops
