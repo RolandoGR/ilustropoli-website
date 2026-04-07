@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<!--
+  This file exists solely so Netlify can detect our forms at deploy time.
+  Astro's JS build sometimes prevents automatic form discovery.
+  See: https://docs.netlify.com/forms/setup/#work-with-javascript-rendered-forms
+-->
+<html>
+<body>
+
+  <!-- Contact form (src/pages/contact.astro) -->
+  <form name="contact" netlify netlify-honeypot="bot-field" hidden>
+    <input type="text"  name="name" />
+    <input type="email" name="email" />
+    <textarea name="message"></textarea>
+  </form>
+
+  <!-- Workshop reservation form (src/pages/workshop/[slug].astro) -->
+  <form name="reserva-taller" netlify netlify-honeypot="bot-field" hidden>
+    <input type="hidden" name="taller" />
+    <input type="text"   name="nombre" />
+    <input type="email"  name="email" />
+    <input type="tel"    name="telefono" />
+    <textarea name="comentario"></textarea>
+  </form>
+
+</body>
+</html>
