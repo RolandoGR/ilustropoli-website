@@ -19,7 +19,9 @@ const workshops = defineCollection({
   type: 'content',
   schema: z.object({
     title: z.string(),
-    date: z.string(),
+    date: z.union([z.string(), z.date()]).transform(val =>
+      val instanceof Date ? val.toISOString().split('T')[0] : val
+    ),
     duration: z.string(),
     price: z.number(),
     capacity: z.number(),
