@@ -49,7 +49,7 @@ const canBuy = for_sale && payment_link && inStock;
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
 
     <!-- Back -->
-    <a href="/gallery" class="inline-flex items-center gap-1 text-sm text-stone-400 hover:text-stone-700 transition-colors mb-8">
+    <a href="/gallery" class="inline-flex items-center gap-1 text-sm text-stone-400 hover:text-stone-700 dark:hover:text-stone-200 transition-colors mb-8">
       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
       </svg>
@@ -64,24 +64,24 @@ const canBuy = for_sale && payment_link && inStock;
 
       <!-- Details -->
       <div class="lg:pt-4">
-        <h1 class="font-serif text-3xl sm:text-4xl font-semibold text-stone-900 leading-tight">{title}</h1>
+        <h1 class="font-serif text-3xl sm:text-4xl font-semibold text-stone-900 dark:text-stone-100 leading-tight">{title}</h1>
 
         {formattedPrice && for_sale && (
-          <p class="mt-4 text-2xl font-serif text-stone-700">{formattedPrice}</p>
+          <p class="mt-4 text-2xl font-serif text-stone-700 dark:text-stone-300">{formattedPrice}</p>
         )}
 
         <!-- Specs -->
-        <dl class="mt-6 space-y-2 text-sm border-t border-stone-200 pt-6">
+        <dl class="mt-6 space-y-2 text-sm border-t border-stone-200 dark:border-stone-700 pt-6">
           {surface && (
             <div class="flex gap-3">
               <dt class="text-stone-400 w-24 flex-shrink-0">Soporte</dt>
-              <dd class="text-stone-700">{surface}</dd>
+              <dd class="text-stone-700 dark:text-stone-300">{surface}</dd>
             </div>
           )}
           {palette && (
             <div class="flex gap-3">
               <dt class="text-stone-400 w-24 flex-shrink-0">Paleta</dt>
-              <dd class="text-stone-700">{palette}</dd>
+              <dd class="text-stone-700 dark:text-stone-300">{palette}</dd>
             </div>
           )}
           {for_sale && (
@@ -95,7 +95,7 @@ const canBuy = for_sale && payment_link && inStock;
         </dl>
 
         <!-- Description -->
-        <div class="mt-8 art-prose prose-stone text-stone-600 leading-relaxed space-y-4">
+        <div class="mt-8 art-prose prose-stone text-stone-600 dark:text-stone-400 leading-relaxed space-y-4">
           <Content />
         </div>
 
@@ -116,7 +116,7 @@ const canBuy = for_sale && payment_link && inStock;
     </div>
 
     <!-- ── Prev / Next navigation ─────────────────────────────── -->
-    <nav class="mt-16 pt-8 border-t border-stone-200 grid grid-cols-2 gap-4">
+    <nav class="mt-16 pt-8 border-t border-stone-200 dark:border-stone-700 grid grid-cols-2 gap-4">
       <!-- Prev -->
       <div>
         {prev ? (
@@ -136,7 +136,7 @@ const canBuy = for_sale && payment_link && inStock;
                   onerror="this.src='/images/placeholder.svg'"
                 />
               </div>
-              <span class="font-serif text-sm text-stone-700 group-hover:text-stone-400 transition-colors leading-snug">
+              <span class="font-serif text-sm text-stone-700 dark:text-stone-300 group-hover:text-stone-400 transition-colors leading-snug">
                 {prev.data.title}
               </span>
             </div>
@@ -163,7 +163,7 @@ const canBuy = for_sale && payment_link && inStock;
                   onerror="this.src='/images/placeholder.svg'"
                 />
               </div>
-              <span class="font-serif text-sm text-stone-700 group-hover:text-stone-400 transition-colors leading-snug">
+              <span class="font-serif text-sm text-stone-700 dark:text-stone-300 group-hover:text-stone-400 transition-colors leading-snug">
                 {next.data.title}
               </span>
             </div>

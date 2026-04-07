@@ -148,7 +148,7 @@ const usedCategories = categories.filter(c => counts[c] > 0);
               />
             </div>
             <div class="mt-2">
-              <h3 class="text-sm font-medium text-stone-900 group-hover:text-stone-500 transition-colors truncate">
+              <h3 class="text-sm font-medium text-stone-900 dark:text-stone-100 group-hover:text-stone-500 dark:group-hover:text-stone-400 transition-colors truncate">
                 {artwork.data.title}
               </h3>
               <p class="text-xs text-stone-300 mt-0.5 capitalize">
@@ -283,11 +283,13 @@ const usedCategories = categories.filter(c => counts[c] > 0);
 
   // ── Mouse drag
   let isDragging  = false;
+  let hasDragged  = false;   // true once the pointer moves enough during a drag
   let dragStartX  = 0;
   let dragStartTX = 0;
 
   track.addEventListener('mousedown', (e) => {
     isDragging  = true;
+    hasDragged  = false;
     dragStartX  = e.clientX;
     dragStartTX = current * slideWidth();
     track.style.transition = 'none';
@@ -299,6 +301,7 @@ const usedCategories = categories.filter(c => counts[c] > 0);
   window.addEventListener('mousemove', (e) => {
     if (!isDragging) return;
     const diff = dragStartX - e.clientX;
+    if (Math.abs(diff) > 5) hasDragged = true;
     track.style.transform = `translateX(-${dragStartTX + diff}px)`;
   });
 
@@ -311,6 +314,15 @@ const usedCategories = categories.filter(c => counts[c] > 0);
     if (Math.abs(diff) > 50) goTo(diff > 0 ? current + 1 : current - 1);
     else goTo(current, false);
   });
+
+  // Block the click event that fires after a drag ends
+  track.addEventListener('click', (e) => {
+    if (hasDragged) {
+      e.preventDefault();
+      e.stopPropagation();
+      hasDragged = false;
+    }
+  }, true); // capture phase — intercepts before the <a> sees it
 
   // Cancel drag if mouse leaves window
   window.addEventListener('mouseleave', () => {
