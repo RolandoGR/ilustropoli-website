@@ -9,14 +9,14 @@ const { images, title } = Astro.props;
 
 <div class="space-y-4">
   <!-- Main image -->
-  <div class="aspect-[4/3] overflow-hidden bg-stone-100">
+  <div class="bg-stone-100 flex items-center justify-center">
     <img
       id="main-image"
       src={images[0]}
       alt={title}
       loading="eager"
       decoding="async"
-      class="w-full h-full object-cover"
+      class="w-full h-auto max-h-[75vh] object-contain"
       onerror="this.src='/images/placeholder.svg'"
     />
   </div>
