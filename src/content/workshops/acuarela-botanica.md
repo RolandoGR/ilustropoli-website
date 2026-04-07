@@ -2,7 +2,7 @@
 title: Acuarela Botánica — Flores Silvestres
 date: 2026-05-10
 duration: 4 horas
-price: 450
+price: 500
 capacity: 8
 featured: true
 payment_link: https://mpago.la/example-workshop-1
