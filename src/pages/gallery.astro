@@ -3,6 +3,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import CategoryFilter from '../components/CategoryFilter.astro';
 import { getCollection } from 'astro:content';
 
+const tagEntries = await getCollection('tags');
+const tagMap = Object.fromEntries(tagEntries.map(t => [t.slug, t.data.title]));
+
 const artworks = await getCollection('artworks');
 const sorted = artworks.sort((a, b) => {
   if (a.data.featured && !b.data.featured) return -1;
@@ -15,6 +18,14 @@ const counts = Object.fromEntries(
   categories.map(cat => [cat, sorted.filter(a => a.data.category === cat).length])
 );
 const usedCategories = categories.filter(c => counts[c] > 0);
+
+const usedTags = tagEntries
+  .map(t => ({
+    value: t.slug,
+    label: t.data.title,
+    count: sorted.filter(a => (a.data.tags ?? []).includes(t.slug)).length,
+  }))
+  .filter(t => t.count > 0);
 ---
 
 <BaseLayout
@@ -63,6 +74,15 @@ const usedCategories = categories.filter(c => counts[c] > 0);
                     </h2>
                     {artwork.data.surface && (
                       <p class="text-xs text-stone-400 mt-0.5">{artwork.data.surface}</p>
+                    )}
+                    {(artwork.data.tags ?? []).length > 0 && (
+                      <div class="flex flex-wrap gap-1 mt-1.5">
+                        {(artwork.data.tags ?? []).map(slug => (
+                          <span class="text-[10px] px-2 py-0.5 border border-stone-200 dark:border-stone-700 text-stone-400 dark:text-stone-500">
+                            {tagMap[slug] ?? slug}
+                          </span>
+                        ))}
+                      </div>
                     )}
                   </div>
                   <div class="flex-shrink-0 flex gap-3 items-center pt-1">
@@ -130,13 +150,18 @@ const usedCategories = categories.filter(c => counts[c] > 0);
       <p class="text-xs text-stone-400">{sorted.length} {sorted.length === 1 ? 'pieza' : 'piezas'}</p>
     </div>
 
-    {usedCategories.length > 0 && (
-      <CategoryFilter categories={usedCategories} counts={counts} total={sorted.length} />
+    {(usedCategories.length > 0 || usedTags.length > 0) && (
+      <CategoryFilter
+        categories={usedCategories}
+        counts={counts}
+        total={sorted.length}
+        tags={usedTags}
+      />
     )}
 
     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-8">
       {sorted.map(artwork => (
-        <article class="group" data-category-item={artwork.data.category ?? ''}>
+        <article class="group" data-category-item={artwork.data.category ?? ''} data-tags={(artwork.data.tags ?? []).join(',')}>
           <a href={`/art/${artwork.slug}`} class="block">
             <div class="aspect-square overflow-hidden bg-stone-100">
               <img
@@ -155,6 +180,15 @@ const usedCategories = categories.filter(c => counts[c] > 0);
                 {artwork.data.category ?? ''}
                 {artwork.data.for_sale && <span class="text-stone-400"> · Disponible</span>}
               </p>
+              {(artwork.data.tags ?? []).length > 0 && (
+                <div class="flex flex-wrap gap-1 mt-1.5">
+                  {(artwork.data.tags ?? []).map(slug => (
+                    <span class="text-[10px] px-1.5 py-0.5 border border-stone-200 dark:border-stone-700 text-stone-400 dark:text-stone-500 leading-tight">
+                      {tagMap[slug] ?? slug}
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
           </a>
         </article>
@@ -175,6 +209,8 @@ const usedCategories = categories.filter(c => counts[c] > 0);
   const total    = slides.length;
   const DELAY    = 4000; // ms between auto-advances
 
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
   let current   = 0;
   let autoTimer: ReturnType<typeof setTimeout> | null = null;
   let isPaused  = false;
@@ -193,16 +229,14 @@ const usedCategories = categories.filter(c => counts[c] > 0);
       const dist    = Math.abs(i - current);
 
       if (dist === 0) {
-        // Active: full size, full opacity
         inner!.style.opacity  = '1';
-        inner!.style.transform = 'scale(1)';
+        inner!.style.transform = reducedMotion ? 'none' : 'scale(1)';
         caption!.style.opacity = '1';
       } else {
-        // Inactive: shrunk + dimmed
         const opacity = dist === 1 ? '0.35' : '0.15';
         const scale   = dist === 1 ? '0.92' : '0.85';
         inner!.style.opacity   = opacity;
-        inner!.style.transform = `scale(${scale})`;
+        inner!.style.transform = reducedMotion ? 'none' : `scale(${scale})`;
         caption!.style.opacity = '0';
       }
     });
@@ -212,7 +246,7 @@ const usedCategories = categories.filter(c => counts[c] > 0);
   function goTo(index: number, resetAuto = true) {
     current = ((index % total) + total) % total; // wraps around
     track.style.transform    = `translateX(-${current * slideWidth()}px)`;
-    track.style.transition   = 'transform 0.55s cubic-bezier(0.4,0,0.2,1)';
+    track.style.transition   = reducedMotion ? 'none' : 'transform 0.55s cubic-bezier(0.4,0,0.2,1)';
     counter.textContent      = `${current + 1} / ${total}`;
 
     updateSlideStyles();
@@ -233,7 +267,7 @@ const usedCategories = categories.filter(c => counts[c] > 0);
   // ── Autoplay
   function scheduleAuto() {
     if (autoTimer) clearTimeout(autoTimer);
-    if (isPaused) return;
+    if (isPaused || reducedMotion) return;
 
     // Reset + animate progress bar
     progress.style.transition = 'none';

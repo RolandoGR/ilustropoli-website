@@ -59,6 +59,17 @@ collections:
       - { label: Stock, name: stock, widget: number, value_type: int, default: 1, required: false, hint: "Cantidad de piezas disponibles. Dejar en 1 para obra única." }
       - { label: Link de pago (MercadoPago), name: payment_link, widget: string, required: false, hint: "URL de MercadoPago. Ej: https://mpago.la/XXXXXX" }
 
+      - label: Etiquetas
+        name: tags
+        widget: relation
+        collection: tags
+        value_field: "{{slug}}"
+        display_fields: ["title"]
+        search_fields: ["title"]
+        multiple: true
+        required: false
+        hint: "Buscá y seleccioná etiquetas. Para crear una nueva, andá a la sección Etiquetas."
+
       - { label: Descripción, name: body, widget: markdown, required: false, hint: "Historia, técnica, inspiración de la obra." }
 
   # ── TALLERES ─────────────────────────────────────────────────────
@@ -73,6 +84,7 @@ collections:
     summary: "{{title}} — {{date}}"
     fields:
       - { label: Título, name: title, widget: string }
+      - { label: Imagen, name: image, widget: image, required: false, hint: "Imagen de portada del taller." }
       - { label: Fecha, name: date, widget: string, hint: "Formato: YYYY-MM-DD. Ej: 2026-05-10" }
       - { label: Duración, name: duration, widget: string, hint: "Ej: 4 horas" }
       - { label: Precio (MXN), name: price, widget: number, value_type: int }
@@ -80,3 +92,16 @@ collections:
       - { label: Destacado en inicio, name: featured, widget: boolean, default: false }
       - { label: Link de pago (MercadoPago), name: payment_link, widget: string, required: false, hint: "URL de MercadoPago para reservar lugar." }
       - { label: Descripción, name: body, widget: markdown, required: false, hint: "Qué incluye, nivel, lugar, etc." }
+
+  # ── ETIQUETAS ────────────────────────────────────────────────────
+  - name: tags
+    label: Etiquetas
+    label_singular: Etiqueta
+    folder: src/content/tags
+    create: true
+    slug: "{{slug}}"
+    extension: md
+    format: frontmatter
+    summary: "{{title}}"
+    fields:
+      - { label: Nombre, name: title, widget: string, hint: "Ej: Trabajo comisionado, Retrato, Serie limitada" }

@@ -4,6 +4,9 @@ import ImageGallery from '../../components/ImageGallery.astro';
 import BuyButton from '../../components/BuyButton.astro';
 import { getCollection, render } from 'astro:content';
 
+const tagEntries = await getCollection('tags');
+const tagMap = Object.fromEntries(tagEntries.map(t => [t.slug, t.data.title]));
+
 export async function getStaticPaths() {
   const artworks = await getCollection('artworks');
 
@@ -27,7 +30,8 @@ export async function getStaticPaths() {
 const { artwork, prev, next } = Astro.props;
 const { Content } = await render(artwork);
 
-const { title, price, images, palette, surface, stock, payment_link, for_sale } = artwork.data;
+const { title, price, images, palette, surface, stock, payment_link, for_sale, tags } = artwork.data;
+const resolvedTags = (tags ?? []).map(slug => tagMap[slug] ?? slug);
 
 const formattedPrice = price
   ? new Intl.NumberFormat('es-MX', {
@@ -89,6 +93,18 @@ const canBuy = for_sale && payment_link && inStock;
               <dt class="text-stone-400 w-24 flex-shrink-0">Disponible</dt>
               <dd class={inStock ? 'text-green-700' : 'text-stone-400'}>
                 {inStock ? `${stock} ${stock === 1 ? 'pieza' : 'piezas'}` : 'Agotada'}
+              </dd>
+            </div>
+          )}
+          {resolvedTags.length > 0 && (
+            <div class="flex gap-3 pt-2">
+              <dt class="text-stone-400 w-24 flex-shrink-0 sr-only">Etiquetas</dt>
+              <dd class="flex flex-wrap gap-1.5">
+                {resolvedTags.map(tag => (
+                  <span class="text-xs px-2 py-0.5 border border-stone-200 dark:border-stone-700 text-stone-400 dark:text-stone-500">
+                    {tag}
+                  </span>
+                ))}
               </dd>
             </div>
           )}
