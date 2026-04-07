@@ -50,6 +50,7 @@ collections:
         options:
           - { label: Acuarela, value: acuarela }
           - { label: Acrílico, value: acrilico }
+          - { label: Óleo, value: oleo }
           - { label: Sketch, value: sketch }
         required: false
         hint: "Técnica principal de la obra."

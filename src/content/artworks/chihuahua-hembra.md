@@ -5,7 +5,7 @@ images:
 featured: false
 sale_divider: ""
 for_sale: false
-category: acrilico
+category: oleo
 stock: 1
 tags:
   - trabajo-comisionado
