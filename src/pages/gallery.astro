@@ -26,7 +26,7 @@ const usedCategories = categories.filter(c => counts[c] > 0);
   <section class="pt-12 pb-4" id="carousel-section">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
       <p class="text-xs uppercase tracking-widest text-stone-400 mb-2">Portfolio</p>
-      <h1 class="font-serif text-3xl sm:text-4xl font-semibold text-stone-900">Galería</h1>
+      <h1 class="font-serif text-3xl sm:text-4xl font-semibold text-stone-900 dark:text-stone-100">Galería</h1>
     </div>
 
     {sorted.length > 0 && (
@@ -34,7 +34,7 @@ const usedCategories = categories.filter(c => counts[c] > 0);
 
         <!-- Track -->
         <div class="overflow-hidden px-4 sm:px-10 lg:px-20">
-          <div id="carousel-track" class="flex gap-4 sm:gap-6">
+          <div id="carousel-track" class="flex gap-4 sm:gap-6 cursor-grab select-none">
             {sorted.map((artwork, i) => (
               <div
                 class="carousel-slide flex-shrink-0 w-[80vw] sm:w-[62vw] lg:w-[48vw]"
@@ -58,7 +58,7 @@ const usedCategories = categories.filter(c => counts[c] > 0);
                 <div class="slide-caption mt-4 flex items-start justify-between gap-4"
                   style="transition: opacity 0.5s ease;">
                   <div>
-                    <h2 class="font-serif text-lg font-medium text-stone-900 leading-snug">
+                    <h2 class="font-serif text-lg font-medium text-stone-900 dark:text-stone-100 leading-snug">
                       {artwork.data.title}
                     </h2>
                     {artwork.data.surface && (
@@ -73,7 +73,7 @@ const usedCategories = categories.filter(c => counts[c] > 0);
                       </a>
                     )}
                     <a href={`/art/${artwork.slug}`}
-                      class="text-xs text-stone-400 hover:text-stone-700 transition-colors whitespace-nowrap">
+                      class="text-xs text-stone-400 hover:text-stone-700 dark:hover:text-stone-200 transition-colors whitespace-nowrap">
                       Ver →
                     </a>
                   </div>
@@ -125,8 +125,8 @@ const usedCategories = categories.filter(c => counts[c] > 0);
 
   <!-- ── FULL GRID ──────────────────────────────────────────────── -->
   <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-20 pb-20">
-    <div class="flex items-baseline justify-between border-t border-stone-200 pt-8 mb-6">
-      <h2 class="font-serif text-xl font-medium text-stone-900">Toda la obra</h2>
+    <div class="flex items-baseline justify-between border-t border-stone-200 dark:border-stone-800 pt-8 mb-6">
+      <h2 class="font-serif text-xl font-medium text-stone-900 dark:text-stone-100">Toda la obra</h2>
       <p class="text-xs text-stone-400">{sorted.length} {sorted.length === 1 ? 'pieza' : 'piezas'}</p>
     </div>
 
@@ -279,6 +279,46 @@ const usedCategories = categories.filter(c => counts[c] > 0);
   track.addEventListener('touchend',   (e) => {
     const diff = startX - e.changedTouches[0].clientX;
     if (Math.abs(diff) > 50) goTo(diff > 0 ? current + 1 : current - 1);
+  });
+
+  // ── Mouse drag
+  let isDragging  = false;
+  let dragStartX  = 0;
+  let dragStartTX = 0;
+
+  track.addEventListener('mousedown', (e) => {
+    isDragging  = true;
+    dragStartX  = e.clientX;
+    dragStartTX = current * slideWidth();
+    track.style.transition = 'none';
+    track.classList.remove('cursor-grab');
+    track.classList.add('cursor-grabbing');
+    e.preventDefault(); // prevent text selection
+  });
+
+  window.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    const diff = dragStartX - e.clientX;
+    track.style.transform = `translateX(-${dragStartTX + diff}px)`;
+  });
+
+  window.addEventListener('mouseup', (e) => {
+    if (!isDragging) return;
+    isDragging = false;
+    track.classList.remove('cursor-grabbing');
+    track.classList.add('cursor-grab');
+    const diff = dragStartX - e.clientX;
+    if (Math.abs(diff) > 50) goTo(diff > 0 ? current + 1 : current - 1);
+    else goTo(current, false);
+  });
+
+  // Cancel drag if mouse leaves window
+  window.addEventListener('mouseleave', () => {
+    if (!isDragging) return;
+    isDragging = false;
+    track.classList.remove('cursor-grabbing');
+    track.classList.add('cursor-grab');
+    goTo(current, false);
   });
 
   // ── Resize
