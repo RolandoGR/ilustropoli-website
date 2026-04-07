@@ -1,15 +1,15 @@
 ---
 title: Cerro de la Campana
-price: 400
 images:
   - /images/artworks/cerro-de-la-campana.jpg
-palette: Sombras y cálidos
 surface: Tela, 80x100 cm
+palette: Sombras y cálidos
+featured: true
+price: 400
 stock: 1
-featured: false
-for_sale: true
 payment_link: https://mpago.la/2XwE9KZ
 description: Obra de descripción de ejemplo
+for_sale: true
 ---
 
 La silueta del desierto se funde con el cielo en una danza de pigmentos. Esta obra captura la esencia del cerro no como un objeto estático, sino como un organismo vivo que respira el calor de Sonora, explorando la transición entre la solidez de la roca y la fluidez del horizonte.
