@@ -3,6 +3,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import CategoryFilter from '../components/CategoryFilter.astro';
 import { getCollection } from 'astro:content';
 
+const tagEntries = await getCollection('tags');
+const tagMap = Object.fromEntries(tagEntries.map(t => [t.slug, t.data.title]));
+
 const artworks = await getCollection('artworks');
 const sorted = artworks.sort((a, b) => {
   if (a.data.featured && !b.data.featured) return -1;
@@ -16,11 +19,13 @@ const counts = Object.fromEntries(
 );
 const usedCategories = categories.filter(c => counts[c] > 0);
 
-const allTags = ['trabajo comisionado', 'vendido', 'serie limitada'] as const;
-const tagCounts = Object.fromEntries(
-  allTags.map(tag => [tag, sorted.filter(a => (a.data.tags ?? []).includes(tag)).length])
-);
-const usedTags = allTags.filter(t => tagCounts[t] > 0);
+const usedTags = tagEntries
+  .map(t => ({
+    value: t.slug,
+    label: t.data.title,
+    count: sorted.filter(a => (a.data.tags ?? []).includes(t.slug)).length,
+  }))
+  .filter(t => t.count > 0);
 ---
 
 <BaseLayout
@@ -72,9 +77,9 @@ const usedTags = allTags.filter(t => tagCounts[t] > 0);
                     )}
                     {(artwork.data.tags ?? []).length > 0 && (
                       <div class="flex flex-wrap gap-1 mt-1.5">
-                        {(artwork.data.tags ?? []).map(tag => (
-                          <span class="text-[10px] px-2 py-0.5 border border-stone-200 dark:border-stone-700 text-stone-400 dark:text-stone-500 capitalize">
-                            {tag}
+                        {(artwork.data.tags ?? []).map(slug => (
+                          <span class="text-[10px] px-2 py-0.5 border border-stone-200 dark:border-stone-700 text-stone-400 dark:text-stone-500">
+                            {tagMap[slug] ?? slug}
                           </span>
                         ))}
                       </div>
@@ -151,7 +156,6 @@ const usedTags = allTags.filter(t => tagCounts[t] > 0);
         counts={counts}
         total={sorted.length}
         tags={usedTags}
-        tagCounts={tagCounts}
       />
     )}
 
@@ -178,9 +182,9 @@ const usedTags = allTags.filter(t => tagCounts[t] > 0);
               </p>
               {(artwork.data.tags ?? []).length > 0 && (
                 <div class="flex flex-wrap gap-1 mt-1.5">
-                  {(artwork.data.tags ?? []).map(tag => (
-                    <span class="text-[10px] px-1.5 py-0.5 border border-stone-200 dark:border-stone-700 text-stone-400 dark:text-stone-500 capitalize leading-tight">
-                      {tag}
+                  {(artwork.data.tags ?? []).map(slug => (
+                    <span class="text-[10px] px-1.5 py-0.5 border border-stone-200 dark:border-stone-700 text-stone-400 dark:text-stone-500 leading-tight">
+                      {tagMap[slug] ?? slug}
                     </span>
                   ))}
                 </div>

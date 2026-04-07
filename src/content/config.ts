@@ -14,7 +14,7 @@ const artworks = defineCollection({
     category: z.enum(['acuarela', 'acrilico', 'sketch']).optional(),
     payment_link: z.string().url().optional(),
     description: z.string().optional(),
-    tags: z.array(z.enum(['trabajo comisionado', 'vendido', 'serie limitada'])).optional(),
+    tags: z.array(z.string()).optional(),
   }),
 });
 
@@ -34,4 +34,11 @@ const workshops = defineCollection({
   }),
 });
 
-export const collections = { artworks, workshops };
+const tags = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+  }),
+});
+
+export const collections = { artworks, workshops, tags };

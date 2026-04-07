@@ -1,24 +1,23 @@
 ---
+interface TagOption {
+  value: string;
+  label: string;
+  count: number;
+}
+
 interface Props {
   categories: string[];
   counts: Record<string, number>;
   total: number;
-  tags?: string[];
-  tagCounts?: Record<string, number>;
+  tags?: TagOption[];
 }
 
-const { categories, counts, total, tags = [], tagCounts = {} } = Astro.props;
+const { categories, counts, total, tags = [] } = Astro.props;
 
 const categoryLabels: Record<string, string> = {
   acuarela: 'Acuarela',
   acrilico: 'Acrílico',
   sketch: 'Sketch',
-};
-
-const tagLabels: Record<string, string> = {
-  'trabajo comisionado': 'Comisionado',
-  'vendido': 'Vendido',
-  'serie limitada': 'Serie limitada',
 };
 ---
 
@@ -48,11 +47,11 @@ const tagLabels: Record<string, string> = {
   {tags.map(tag => (
     <button
       class="filter-btn text-xs px-4 py-1.5 border transition-colors"
-      data-filter={tag}
+      data-filter={tag.value}
       data-filter-type="tag"
     >
-      {tagLabels[tag] ?? tag}
-      <span class="opacity-50 ml-1">{tagCounts[tag] ?? 0}</span>
+      {tag.label}
+      <span class="opacity-50 ml-1">{tag.count}</span>
     </button>
   ))}
 </div>

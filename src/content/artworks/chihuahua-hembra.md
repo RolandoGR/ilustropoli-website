@@ -8,6 +8,6 @@ for_sale: false
 category: acrilico
 stock: 1
 tags:
-  - trabajo comisionado
+  - trabajo-comisionado
 ---
 Trabajo comisionado

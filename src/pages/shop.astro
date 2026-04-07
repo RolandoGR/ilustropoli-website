@@ -4,6 +4,9 @@ import ArtworkCard from '../components/ArtworkCard.astro';
 import CategoryFilter from '../components/CategoryFilter.astro';
 import { getCollection } from 'astro:content';
 
+const tagEntries = await getCollection('tags');
+const tagMap = Object.fromEntries(tagEntries.map(t => [t.slug, t.data.title]));
+
 const artworks = await getCollection('artworks');
 const forSale = artworks
   .filter(a => a.data.for_sale)
@@ -19,11 +22,13 @@ const counts = Object.fromEntries(
 );
 const usedCategories = categories.filter(c => counts[c] > 0);
 
-const allTags = ['trabajo comisionado', 'vendido', 'serie limitada'] as const;
-const tagCounts = Object.fromEntries(
-  allTags.map(tag => [tag, forSale.filter(a => (a.data.tags ?? []).includes(tag)).length])
-);
-const usedTags = allTags.filter(t => tagCounts[t] > 0);
+const usedTags = tagEntries
+  .map(t => ({
+    value: t.slug,
+    label: t.data.title,
+    count: forSale.filter(a => (a.data.tags ?? []).includes(t.slug)).length,
+  }))
+  .filter(t => t.count > 0);
 ---
 
 <BaseLayout
@@ -47,7 +52,6 @@ const usedTags = allTags.filter(t => tagCounts[t] > 0);
             counts={counts}
             total={forSale.length}
             tags={usedTags}
-            tagCounts={tagCounts}
           />
         )}
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10">
@@ -62,7 +66,7 @@ const usedTags = allTags.filter(t => tagCounts[t] > 0);
                 image={artwork.data.images[0]}
                 slug={artwork.slug}
                 surface={artwork.data.surface}
-                tags={artwork.data.tags}
+                tags={(artwork.data.tags ?? []).map(slug => tagMap[slug] ?? slug)}
               />
             </div>
           ))}

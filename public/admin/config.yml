@@ -61,14 +61,14 @@ collections:
 
       - label: Etiquetas
         name: tags
-        widget: select
+        widget: relation
+        collection: tags
+        value_field: "{{slug}}"
+        display_fields: ["title"]
+        search_fields: ["title"]
         multiple: true
-        options:
-          - { label: Trabajo comisionado, value: trabajo comisionado }
-          - { label: Vendido, value: vendido }
-          - { label: Serie limitada, value: serie limitada }
         required: false
-        hint: "Etiquetas adicionales para la obra."
+        hint: "Buscá y seleccioná etiquetas. Para crear una nueva, andá a la sección Etiquetas."
 
       - { label: Descripción, name: body, widget: markdown, required: false, hint: "Historia, técnica, inspiración de la obra." }
 
@@ -92,3 +92,16 @@ collections:
       - { label: Destacado en inicio, name: featured, widget: boolean, default: false }
       - { label: Link de pago (MercadoPago), name: payment_link, widget: string, required: false, hint: "URL de MercadoPago para reservar lugar." }
       - { label: Descripción, name: body, widget: markdown, required: false, hint: "Qué incluye, nivel, lugar, etc." }
+
+  # ── ETIQUETAS ────────────────────────────────────────────────────
+  - name: tags
+    label: Etiquetas
+    label_singular: Etiqueta
+    folder: src/content/tags
+    create: true
+    slug: "{{slug}}"
+    extension: md
+    format: frontmatter
+    summary: "{{title}}"
+    fields:
+      - { label: Nombre, name: title, widget: string, hint: "Ej: Trabajo comisionado, Retrato, Serie limitada" }
