@@ -7,5 +7,7 @@ sale_divider: ""
 for_sale: false
 category: acrilico
 stock: 1
+tags:
+  - trabajo comisionado
 ---
 Trabajo comisionado

@@ -5,9 +5,10 @@ interface Props {
   image: string;
   slug: string;
   surface?: string;
+  tags?: string[];
 }
 
-const { title, price, image, slug, surface } = Astro.props;
+const { title, price, image, slug, surface, tags = [] } = Astro.props;
 
 const formattedPrice = new Intl.NumberFormat('es-MX', {
   style: 'currency',
@@ -39,6 +40,15 @@ const formattedPrice = new Intl.NumberFormat('es-MX', {
         <p class="text-xs text-stone-400 mt-0.5">{surface}</p>
       )}
       <p class="text-sm font-medium text-stone-700 dark:text-stone-300 mt-1">{formattedPrice}</p>
+      {tags.length > 0 && (
+        <div class="flex flex-wrap gap-1 mt-2">
+          {tags.map(tag => (
+            <span class="text-[10px] px-2 py-0.5 border border-stone-200 dark:border-stone-700 text-stone-400 dark:text-stone-500 capitalize">
+              {tag}
+            </span>
+          ))}
+        </div>
+      )}
     </div>
   </a>
 </article>

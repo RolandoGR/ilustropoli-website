@@ -3,21 +3,29 @@ interface Props {
   categories: string[];
   counts: Record<string, number>;
   total: number;
+  tags?: string[];
+  tagCounts?: Record<string, number>;
 }
 
-const { categories, counts, total } = Astro.props;
+const { categories, counts, total, tags = [], tagCounts = {} } = Astro.props;
 
-const labels: Record<string, string> = {
+const categoryLabels: Record<string, string> = {
   acuarela: 'Acuarela',
   acrilico: 'Acrílico',
   sketch: 'Sketch',
+};
+
+const tagLabels: Record<string, string> = {
+  'trabajo comisionado': 'Comisionado',
+  'vendido': 'Vendido',
+  'serie limitada': 'Serie limitada',
 };
 ---
 
 <div id="filter-bar" class="flex flex-wrap gap-2 mb-8">
   <button
     class="filter-btn active text-xs px-4 py-1.5 border transition-colors"
-    data-category="all"
+    data-filter="all"
   >
     Todo <span class="opacity-50 ml-1">{total}</span>
   </button>
@@ -25,10 +33,26 @@ const labels: Record<string, string> = {
   {categories.map(cat => (
     <button
       class="filter-btn text-xs px-4 py-1.5 border transition-colors"
-      data-category={cat}
+      data-filter={cat}
+      data-filter-type="category"
     >
-      {labels[cat] ?? cat}
+      {categoryLabels[cat] ?? cat}
       <span class="opacity-50 ml-1">{counts[cat] ?? 0}</span>
+    </button>
+  ))}
+
+  {tags.length > 0 && (
+    <span class="self-center border-l border-stone-200 dark:border-stone-700 h-4 mx-1"></span>
+  )}
+
+  {tags.map(tag => (
+    <button
+      class="filter-btn text-xs px-4 py-1.5 border transition-colors"
+      data-filter={tag}
+      data-filter-type="tag"
+    >
+      {tagLabels[tag] ?? tag}
+      <span class="opacity-50 ml-1">{tagCounts[tag] ?? 0}</span>
     </button>
   ))}
 </div>
@@ -45,28 +69,33 @@ const labels: Record<string, string> = {
   }
   .filter-btn.active {
     border-color: #1c1917;
-    color: #1c1917;
     background: #1c1917;
     color: #fafaf9;
   }
 </style>
 
 <script>
-  const btns = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+  const btns  = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
   const cards = document.querySelectorAll<HTMLElement>('[data-category-item]');
 
   btns.forEach(btn => {
     btn.addEventListener('click', () => {
-      const cat = btn.dataset.category!;
+      const filter = btn.dataset.filter!;
+      const type   = btn.dataset.filterType; // 'category' | 'tag' | undefined (all)
 
-      // Update active button
       btns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
 
-      // Show/hide cards
       cards.forEach(card => {
-        const itemCat = card.dataset.categoryItem;
-        const show = cat === 'all' || itemCat === cat || (!itemCat && cat === 'all');
+        let show = false;
+        if (filter === 'all') {
+          show = true;
+        } else if (type === 'category') {
+          show = card.dataset.categoryItem === filter;
+        } else if (type === 'tag') {
+          const itemTags = (card.dataset.tags ?? '').split(',').map(t => t.trim()).filter(Boolean);
+          show = itemTags.includes(filter);
+        }
         card.style.display = show ? '' : 'none';
       });
     });

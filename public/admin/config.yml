@@ -65,6 +65,8 @@ collections:
         multiple: true
         options:
           - { label: Trabajo comisionado, value: trabajo comisionado }
+          - { label: Vendido, value: vendido }
+          - { label: Serie limitada, value: serie limitada }
         required: false
         hint: "Etiquetas adicionales para la obra."
 
@@ -82,6 +84,7 @@ collections:
     summary: "{{title}} — {{date}}"
     fields:
       - { label: Título, name: title, widget: string }
+      - { label: Imagen, name: image, widget: image, required: false, hint: "Imagen de portada del taller." }
       - { label: Fecha, name: date, widget: string, hint: "Formato: YYYY-MM-DD. Ej: 2026-05-10" }
       - { label: Duración, name: duration, widget: string, hint: "Ej: 4 horas" }
       - { label: Precio (MXN), name: price, widget: number, value_type: int }

@@ -3,7 +3,13 @@
     "allow": [
       "Bash(npm install:*)",
       "Bash(echo \"EXIT: $?\")",
-      "Bash(npm run:*)"
+      "Bash(npm run:*)",
+      "Bash(xargs sed -i 's/font-semibold text-stone-900\"\"\"\"/font-semibold text-stone-900 dark:text-stone-100\"\"\"\"/g;:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(grep -n \"text-stone-900\\\\b\" E:/repos/ilustropoli-website/src/pages/shop.astro E:/repos/ilustropoli-website/src/pages/workshops.astro E:/repos/ilustropoli-website/src/pages/contact.astro E:/repos/ilustropoli-website/src/pages/workshop/[slug].astro E:/repos/ilustropoli-website/src/pages/art/[slug].astro)",
+      "Bash(xargs grep:*)"
     ]
   }
 }

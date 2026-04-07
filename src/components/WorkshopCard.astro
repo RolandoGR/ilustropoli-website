@@ -6,9 +6,10 @@ interface Props {
   price: number;
   capacity: number;
   slug: string;
+  image?: string;
 }
 
-const { title, date, duration, price, capacity, slug } = Astro.props;
+const { title, date, duration, price, capacity, slug, image } = Astro.props;
 
 const formattedPrice = new Intl.NumberFormat('es-MX', {
   style: 'currency',
@@ -24,8 +25,21 @@ const formattedDate = new Date(date + 'T12:00:00').toLocaleDateString('es-MX', {
 });
 ---
 
-<article class="border border-stone-200 dark:border-stone-700 p-6 hover:border-stone-400 dark:hover:border-stone-500 transition-colors dark:bg-stone-900">
+<article class="border border-stone-200 dark:border-stone-700 hover:border-stone-400 dark:hover:border-stone-500 transition-colors dark:bg-stone-900 overflow-hidden">
   <a href={`/workshop/${slug}`} class="block">
+    {image && (
+      <div class="aspect-[16/7] overflow-hidden bg-stone-100 dark:bg-stone-800">
+        <img
+          src={image}
+          alt={title}
+          loading="lazy"
+          decoding="async"
+          class="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+          onerror="this.src='/images/placeholder.svg'"
+        />
+      </div>
+    )}
+    <div class="p-6">
     <p class="text-xs uppercase tracking-widest text-stone-400 mb-3">Taller</p>
     <h3 class="font-serif text-xl font-medium text-stone-900 dark:text-stone-100 leading-snug">{title}</h3>
 
@@ -45,5 +59,6 @@ const formattedDate = new Date(date + 'T12:00:00').toLocaleDateString('es-MX', {
     </dl>
 
     <p class="mt-4 text-lg font-serif font-semibold text-stone-900 dark:text-stone-100">{formattedPrice}</p>
+    </div>
   </a>
 </article>

@@ -18,6 +18,12 @@ const counts = Object.fromEntries(
   categories.map(cat => [cat, forSale.filter(a => a.data.category === cat).length])
 );
 const usedCategories = categories.filter(c => counts[c] > 0);
+
+const allTags = ['trabajo comisionado', 'vendido', 'serie limitada'] as const;
+const tagCounts = Object.fromEntries(
+  allTags.map(tag => [tag, forSale.filter(a => (a.data.tags ?? []).includes(tag)).length])
+);
+const usedTags = allTags.filter(t => tagCounts[t] > 0);
 ---
 
 <BaseLayout
@@ -35,18 +41,28 @@ const usedCategories = categories.filter(c => counts[c] > 0);
 
     {forSale.length > 0 ? (
       <>
-        {usedCategories.length > 0 && (
-          <CategoryFilter categories={usedCategories} counts={counts} total={forSale.length} />
+        {(usedCategories.length > 0 || usedTags.length > 0) && (
+          <CategoryFilter
+            categories={usedCategories}
+            counts={counts}
+            total={forSale.length}
+            tags={usedTags}
+            tagCounts={tagCounts}
+          />
         )}
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10">
           {forSale.map(artwork => (
-            <div data-category-item={artwork.data.category ?? ''}>
+            <div
+              data-category-item={artwork.data.category ?? ''}
+              data-tags={(artwork.data.tags ?? []).join(',')}
+            >
               <ArtworkCard
                 title={artwork.data.title}
                 price={artwork.data.price!}
                 image={artwork.data.images[0]}
                 slug={artwork.slug}
                 surface={artwork.data.surface}
+                tags={artwork.data.tags}
               />
             </div>
           ))}
