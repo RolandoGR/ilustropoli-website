@@ -16,8 +16,12 @@ const currentPath = Astro.url.pathname;
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-16">
       <!-- Logo -->
-      <a href="/" class="font-serif text-xl font-semibold tracking-wide text-stone-900 dark:text-stone-100 hover:text-stone-600 dark:hover:text-stone-400 transition-colors">
-        Ilustropoli
+      <a href="/" class="flex items-center gap-2.5 hover:opacity-75 transition-opacity">
+        <img src="/images/logo-light.png" alt="" aria-hidden="true" class="h-8 w-auto block dark:hidden" />
+        <img src="/images/logo-dark.png"  alt="" aria-hidden="true" class="h-8 w-auto hidden dark:block" />
+        <span class="font-serif text-xl font-semibold tracking-wide text-stone-900 dark:text-stone-100">
+          Ilustropoli
+        </span>
       </a>
 
       <!-- Desktop nav -->
