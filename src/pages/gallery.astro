@@ -150,7 +150,7 @@ const usedTags = tagEntries
       <p class="text-xs text-stone-400">{sorted.length} {sorted.length === 1 ? 'pieza' : 'piezas'}</p>
     </div>
 
-    {(usedCategories.length > 0 || usedTags.length > 0) && (
+    {sorted.length > 0 && (
       <CategoryFilter
         categories={usedCategories}
         counts={counts}
