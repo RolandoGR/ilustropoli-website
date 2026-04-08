@@ -13,7 +13,7 @@ const sorted = artworks.sort((a, b) => {
   return a.data.title.localeCompare(b.data.title);
 });
 
-const categories = ['acuarela', 'acrilico', 'sketch'] as const;
+const categories = ['acuarela', 'acrilico', 'oleo', 'sketch'] as const;
 const counts = Object.fromEntries(
   categories.map(cat => [cat, sorted.filter(a => a.data.category === cat).length])
 );
@@ -156,12 +156,20 @@ const usedTags = tagEntries
         counts={counts}
         total={sorted.length}
         tags={usedTags}
+        showAvailable={true}
+        availableCount={sorted.filter(a => a.data.for_sale).length}
       />
     )}
 
     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-8">
       {sorted.map(artwork => (
-        <article class="group" data-category-item={artwork.data.category ?? ''} data-tags={(artwork.data.tags ?? []).join(',')}>
+        <article
+          class="group"
+          data-category-item={artwork.data.category ?? ''}
+          data-tags={(artwork.data.tags ?? []).join(',')}
+          data-for-sale={String(artwork.data.for_sale ?? false)}
+          data-search={[artwork.data.title, artwork.data.surface, artwork.data.category].filter(Boolean).join(' ').toLowerCase()}
+        >
           <a href={`/art/${artwork.slug}`} class="block">
             <div class="aspect-square overflow-hidden bg-stone-100">
               <img

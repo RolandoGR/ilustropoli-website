@@ -16,7 +16,7 @@ const forSale = artworks
     return a.data.title.localeCompare(b.data.title);
   });
 
-const categories = ['acuarela', 'acrilico', 'sketch'] as const;
+const categories = ['acuarela', 'acrilico', 'oleo', 'sketch'] as const;
 const counts = Object.fromEntries(
   categories.map(cat => [cat, forSale.filter(a => a.data.category === cat).length])
 );
@@ -59,6 +59,8 @@ const usedTags = tagEntries
             <div
               data-category-item={artwork.data.category ?? ''}
               data-tags={(artwork.data.tags ?? []).join(',')}
+              data-for-sale="true"
+              data-search={[artwork.data.title, artwork.data.surface, artwork.data.category].filter(Boolean).join(' ').toLowerCase()}
             >
               <ArtworkCard
                 title={artwork.data.title}
