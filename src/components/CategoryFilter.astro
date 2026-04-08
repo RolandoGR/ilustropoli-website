@@ -10,9 +10,11 @@ interface Props {
   counts: Record<string, number>;
   total: number;
   tags?: TagOption[];
+  showAvailable?: boolean;
+  availableCount?: number;
 }
 
-const { categories, counts, total, tags = [] } = Astro.props;
+const { categories, counts, total, tags = [], showAvailable = false, availableCount = 0 } = Astro.props;
 
 const categoryLabels: Record<string, string> = {
   acuarela: 'Acuarela',
@@ -22,40 +24,62 @@ const categoryLabels: Record<string, string> = {
 };
 ---
 
-<div id="filter-bar" class="flex flex-wrap gap-2 mb-8">
-  <button
-    class="filter-btn active text-xs px-4 py-1.5 border transition-colors"
-    data-filter="all"
-  >
-    Todo <span class="opacity-50 ml-1">{total}</span>
-  </button>
+<div class="mb-8 space-y-3">
 
-  {categories.map(cat => (
-    <button
-      class="filter-btn text-xs px-4 py-1.5 border transition-colors"
-      data-filter={cat}
-      data-filter-type="category"
-    >
-      {categoryLabels[cat] ?? cat}
-      <span class="opacity-50 ml-1">{counts[cat] ?? 0}</span>
+  <!-- Search -->
+  <div class="relative">
+    <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-stone-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z"/>
+    </svg>
+    <input
+      id="artwork-search"
+      type="search"
+      placeholder="Buscar obra..."
+      autocomplete="off"
+      class="w-full sm:w-72 pl-9 pr-4 py-1.5 text-xs border border-stone-300 dark:border-stone-600 bg-transparent dark:bg-stone-800/40 text-stone-700 dark:text-stone-300 placeholder:text-stone-400 dark:placeholder:text-stone-500 focus:outline-none focus:border-stone-500 dark:focus:border-stone-400 transition-colors"
+    />
+  </div>
+
+  <!-- Filter buttons -->
+  <div id="filter-bar" class="flex flex-wrap gap-2">
+    <button class="filter-btn active text-xs px-4 py-1.5 border transition-colors" data-filter="all">
+      Todo <span class="opacity-50 ml-1">{total}</span>
     </button>
-  ))}
 
-  {tags.length > 0 && (
-    <span class="self-center border-l border-stone-200 dark:border-stone-700 h-4 mx-1"></span>
-  )}
+    {categories.map(cat => (
+      <button class="filter-btn text-xs px-4 py-1.5 border transition-colors" data-filter={cat} data-filter-type="category">
+        {categoryLabels[cat] ?? cat}
+        <span class="opacity-50 ml-1">{counts[cat] ?? 0}</span>
+      </button>
+    ))}
 
-  {tags.map(tag => (
-    <button
-      class="filter-btn text-xs px-4 py-1.5 border transition-colors"
-      data-filter={tag.value}
-      data-filter-type="tag"
-    >
-      {tag.label}
-      <span class="opacity-50 ml-1">{tag.count}</span>
-    </button>
-  ))}
+    {showAvailable && (
+      <>
+        <span class="self-center border-l border-stone-200 dark:border-stone-700 h-4 mx-1"></span>
+        <button class="filter-btn text-xs px-4 py-1.5 border transition-colors" data-filter="available" data-filter-type="forsale">
+          Disponible <span class="opacity-50 ml-1">{availableCount}</span>
+        </button>
+      </>
+    )}
+
+    {tags.length > 0 && (
+      <span class="self-center border-l border-stone-200 dark:border-stone-700 h-4 mx-1"></span>
+    )}
+
+    {tags.map(tag => (
+      <button class="filter-btn text-xs px-4 py-1.5 border transition-colors" data-filter={tag.value} data-filter-type="tag">
+        {tag.label}
+        <span class="opacity-50 ml-1">{tag.count}</span>
+      </button>
+    ))}
+  </div>
+
 </div>
+
+<!-- No-results message -->
+<p id="filter-no-results" class="hidden text-sm text-stone-400 py-10 text-center">
+  No se encontraron obras.
+</p>
 
 <style>
   .filter-btn {
@@ -72,32 +96,60 @@ const categoryLabels: Record<string, string> = {
     background: #1c1917;
     color: #fafaf9;
   }
+  :global(.dark) .filter-btn {
+    border-color: #57534e;
+    color: #a8a29e;
+  }
+  :global(.dark) .filter-btn:hover {
+    border-color: #d6d3d1;
+    color: #fafaf9;
+  }
+  :global(.dark) .filter-btn.active {
+    border-color: #fafaf9;
+    background: #fafaf9;
+    color: #1c1917;
+  }
 </style>
 
 <script>
-  const btns  = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
-  const cards = document.querySelectorAll<HTMLElement>('[data-category-item]');
+  const btns       = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+  const cards      = document.querySelectorAll<HTMLElement>('[data-category-item]');
+  const searchInput = document.getElementById('artwork-search') as HTMLInputElement | null;
+  const noResults  = document.getElementById('filter-no-results');
+
+  let activeFilter = { value: 'all', type: '' };
+
+  function applyFilters() {
+    const q = searchInput?.value.toLowerCase().trim() ?? '';
+
+    let visible = 0;
+    cards.forEach(card => {
+      const matchesFilter =
+        activeFilter.value === 'all' ||
+        (activeFilter.type === 'category' && card.dataset.categoryItem === activeFilter.value) ||
+        (activeFilter.type === 'tag'      && (card.dataset.tags ?? '').split(',').map(t => t.trim()).filter(Boolean).includes(activeFilter.value)) ||
+        (activeFilter.type === 'forsale'  && card.dataset.forSale === 'true');
+
+      const matchesSearch = !q || (card.dataset.search ?? '').includes(q);
+
+      const show = matchesFilter && matchesSearch;
+      card.style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+
+    if (noResults) noResults.classList.toggle('hidden', visible > 0);
+  }
 
   btns.forEach(btn => {
     btn.addEventListener('click', () => {
-      const filter = btn.dataset.filter!;
-      const type   = btn.dataset.filterType; // 'category' | 'tag' | undefined (all)
-
+      activeFilter = { value: btn.dataset.filter!, type: btn.dataset.filterType ?? '' };
       btns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-
-      cards.forEach(card => {
-        let show = false;
-        if (filter === 'all') {
-          show = true;
-        } else if (type === 'category') {
-          show = card.dataset.categoryItem === filter;
-        } else if (type === 'tag') {
-          const itemTags = (card.dataset.tags ?? '').split(',').map(t => t.trim()).filter(Boolean);
-          show = itemTags.includes(filter);
-        }
-        card.style.display = show ? '' : 'none';
-      });
+      // "Todo" resets the search too
+      if (activeFilter.value === 'all' && searchInput) searchInput.value = '';
+      applyFilters();
     });
   });
+
+  searchInput?.addEventListener('input', applyFilters);
 </script>
