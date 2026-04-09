@@ -1,5 +1,5 @@
 ---
-title: Sketch
+title: Blvd Kino
 images:
   - /images/artworks/studio2.jpeg
 featured: false
