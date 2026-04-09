@@ -1,10 +1,10 @@
 ---
-title: Unikino
+title: Sketch
 images:
   - /images/artworks/studio2.jpeg
-featured: true
+featured: false
 sale_divider: ""
-category: acrilico
+category: sketch
 for_sale: false
 stock: 1
 ---
