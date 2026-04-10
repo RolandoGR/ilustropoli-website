@@ -1,7 +1,7 @@
 ---
 title: Chewbacca
 images:
-  - /images/artworks/chewie.jpeg
+  - /images/artworks/chewie2.png
 featured: false
 sale_divider: ""
 category: oleo
