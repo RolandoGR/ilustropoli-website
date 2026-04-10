@@ -8,7 +8,6 @@ palette: Rojos terracota y detalles dorados contrastan con verdes profundos
 featured: true
 price: 700
 stock: 1
-payment_link: ""
 tags:
   - impresión-hd
 description: Obra de descripción de ejemplo
