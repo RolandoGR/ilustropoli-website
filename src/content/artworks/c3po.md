@@ -1,7 +1,7 @@
 ---
 title: C3PO
 images:
-  - /images/artworks/c3po.jpeg
+  - /images/artworks/c3pov2.png
 featured: false
 sale_divider: ""
 category: oleo
