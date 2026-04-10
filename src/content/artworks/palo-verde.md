@@ -2,15 +2,15 @@
 title: Palo Verde
 images:
   - /images/artworks/palo-verde.jpg
-surface: Papel de algodón 300g, 35x50 cm
+surface: Original de 18x23
 palette: Verdes, rosas y ocres
 featured: true
-price: 650
+price: ""
 stock: 1
 payment_link: https://mpago.la/example-link-2
 description: Obra de descripción de ejemplo
-for_sale: true
 category: acuarela
+for_sale: true
 ---
 
 La explosión del desierto que reclama su lugar en la acera. Esta obra celebra el instante en que el Palo Verde se transforma en una mancha de luz vibrante, contrastando la estructura rígida de la ciudad con la libertad orgánica de la flora sonorense.
