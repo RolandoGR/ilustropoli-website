@@ -6,10 +6,11 @@ surface: Papel acuarela, 15 x 15 cm
 palette: Rojos terracota y detalles dorados contrastan con verdes profundos
   sobre una base neutra de piedra.
 featured: true
-price: ""
+price: 700
 stock: 1
 payment_link: ""
-tags: []
+tags:
+  - impresión-hd
 description: Obra de descripción de ejemplo
 category: acuarela
 for_sale: false
