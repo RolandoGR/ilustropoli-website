@@ -6,6 +6,8 @@ featured: false
 sale_divider: ""
 category: acuarela
 for_sale: true
-price: 400
+price: 700
 stock: 1
+tags:
+  - impresión-hd
 ---
