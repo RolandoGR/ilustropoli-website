@@ -1,18 +1,18 @@
 ---
-title: Bar Michael Collins
-price: 450
+title: Pub Michael Collins
 images:
   - /images/artworks/bar-michael-collins.jpg
-palette: Tierras, azules y dorados
-surface: Tela de lino, 50x70 cm
-stock: 1
+surface: Papel acuarela, 15 x 15 cm
+palette: Rojos terracota y detalles dorados contrastan con verdes profundos
+  sobre una base neutra de piedra.
 featured: true
-for_sale: false
-category: acuarela
-payment_link: https://mpago.la/example-link-1
+price: ""
+stock: 1
+payment_link: ""
 description: Obra de descripción de ejemplo
+category: acuarela
+for_sale: false
 ---
+Ubicada en la ciudad de Barcelona, esta obra captura la esencia histórica del emblemático pub Michael Collins. Mediante trazos precisos y una paleta de colores cálidos, la ilustración resalta la icónica entrada de madera rojiza enmarcada por un arco de piedra meticulosamente detallado.
 
-Una fachada que resguarda historias, capturada en un instante de luz dorada. La arquitectura se vuelve íntima a través de una paleta de tierras cálidas y azules suaves que evocan la quietud de un momento suspendido, invitando a la contemplación de lo cotidiano.
-
-Pintada con pigmentos naturales sobre lino crudo, esta obra refleja un trabajo minucioso de detalle y textura. La aplicación del color respeta la nobleza del soporte, logrando una profundidad que transforma una entrada urbana en un refugio visual.
+El artista rinde homenaje a la arquitectura urbana barcelonesa, integrando elementos distintivos como la textura del edificio y el diseño del pavimento. Esta pieza invita al espectador a detenerse ante su umbral, evocando la atmósfera acogedora y cosmopolita del barrio de la Sagrada Família. Es una ventana directa al encanto cotidiano de la capital catalana, ideal para quienes buscan inmortalizar los rincones más carismáticos de la ciudad.
