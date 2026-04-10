@@ -2,7 +2,7 @@
 title: Pub Michael Collins
 images:
   - /images/artworks/bar-michael-collins.jpg
-surface: Papel acuarela, 15 x 15 cm
+surface: Original en papel acuarela, 15 x 15 cm
 palette: Rojos terracota y detalles dorados contrastan con verdes profundos
   sobre una base neutra de piedra.
 featured: true
