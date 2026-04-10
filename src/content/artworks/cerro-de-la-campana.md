@@ -5,7 +5,7 @@ images:
 surface: ""
 palette: Sombras y cálidos
 featured: true
-price: ""
+price: 700
 stock: 1
 payment_link: https://mpago.la/2XwE9KZ
 description: Obra de descripción de ejemplo
