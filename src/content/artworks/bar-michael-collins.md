@@ -12,7 +12,7 @@ tags:
   - impresión-hd
 description: Obra de descripción de ejemplo
 category: acuarela
-for_sale: false
+for_sale: true
 ---
 Ubicada en la ciudad de Barcelona, esta obra captura la esencia histórica del emblemático pub Michael Collins. Mediante trazos precisos y una paleta de colores cálidos, la ilustración resalta la icónica entrada de madera rojiza enmarcada por un arco de piedra meticulosamente detallado.
 
