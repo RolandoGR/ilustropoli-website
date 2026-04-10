@@ -9,6 +9,7 @@ featured: true
 price: ""
 stock: 1
 payment_link: ""
+tags: []
 description: Obra de descripción de ejemplo
 category: acuarela
 for_sale: false
