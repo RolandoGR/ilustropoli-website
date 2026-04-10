@@ -14,4 +14,4 @@ stock: 1
 tags:
   - impresión-hd
 ---
-Esta pieza de arte es una evocadora pintura a la acuarela y tinta que representa la majestuosa montaña Tetakawi, o su cerro vecino, un hito natural icónico situado cerca de San Carlos, Sonora. La obra está ejecutada en un estilo de boceto lineal y acuarela expresivo y de ensueño, donde líneas de tinta negra nítida definen las formas rocosas y la vegetación, mientras que lavados de color transparentes y superpuestos aportan atmósfera y textura.
+Esta pieza de arte es una evocadora pintura a la acuarela y tinta que representa al cerro vecino del icónico cerro Tetakawi, un hito natural icónico situado cerca de San Carlos, Sonora. La obra está ejecutada en un estilo de boceto lineal y acuarela expresivo y de ensueño, donde líneas de tinta negra nítida definen las formas rocosas y la vegetación, mientras que lavados de color transparentes y superpuestos aportan atmósfera y textura.
