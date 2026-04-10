@@ -2,7 +2,7 @@
 title: Cerro de la Campana
 images:
   - /images/artworks/cerro-de-la-campana.jpg
-surface: ""
+surface: Original en papel acuarela, 24 x 24 cm
 palette: Sombras y cálidos
 featured: true
 price: 700
