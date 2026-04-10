@@ -2,7 +2,7 @@
 title: Palo Verde
 images:
   - /images/artworks/palo-verde.jpg
-surface: Original de 18x23
+surface: Original en papel acuarela, 18x23
 palette: Verdes, rosas y ocres
 featured: true
 price: 700
