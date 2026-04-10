@@ -8,6 +8,8 @@ featured: true
 price: 700
 stock: 1
 payment_link: https://mpago.la/example-link-2
+tags:
+  - impresión-hd
 description: Obra de descripción de ejemplo
 category: acuarela
 for_sale: true
