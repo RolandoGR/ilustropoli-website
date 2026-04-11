@@ -1,7 +1,7 @@
 ---
 title: Yoda
 images:
-  - ../../assets/artworks/yoda.jpeg
+  - ../../assets/artworks/yoda1.png
 featured: false
 sale_divider: ""
 category: oleo

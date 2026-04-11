@@ -2,15 +2,17 @@
 title: Cerro de la Campana
 images:
   - ../../assets/artworks/cerro-de-la-campana.jpg
-surface: Tela, 80x100 cm
+surface: Original en papel acuarela, 24 x 24 cm
 palette: Sombras y cálidos
 featured: true
-price: 400
+price: 700
 stock: 1
 payment_link: https://mpago.la/2XwE9KZ
+tags:
+  - impresión-hd
 description: Obra de descripción de ejemplo
-for_sale: true
 category: acuarela
+for_sale: true
 ---
 
 La silueta del desierto se funde con el cielo en una danza de pigmentos. Esta obra captura la esencia del cerro no como un objeto estático, sino como un organismo vivo que respira el calor de Sonora, explorando la transición entre la solidez de la roca y la fluidez del horizonte.
